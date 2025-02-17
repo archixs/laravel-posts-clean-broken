@@ -30,16 +30,16 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|unique:posts|string|max:255',
             'content' => 'required|string'
         ]);
 
         $post = Post::create([
-            'title' => title,
-            'content' => content
+            'title' => $request->title,
+            'content' => $request->content
         ]);
 
-        return redirect()->route('post.show', $post)->with('status_code', 'Post created successfully.');
+        return redirect()->route('post.index', $post)->with('status_code', 'Post created successfully.');
     }
 
     /**
@@ -64,7 +64,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|unique:posts|string|max:255',
             'content' => 'required|string'
         ]);
 
@@ -81,7 +81,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+        $post = Post::find($id);
         $post->delete();
-        return redirect()->route('post.index')->with('status', 'Post deleted successfully.');
+        return redirect()->route('post.index', $post)->with('status', 'Post deleted successfully.');
     }    
 }

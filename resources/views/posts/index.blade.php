@@ -13,7 +13,7 @@
                         @csrf
                         @method('DELETE')
                         
-                        <button>Delete</button>
+                        <button>    Delete</button>
                     </form>
                 </div>
             </li>
